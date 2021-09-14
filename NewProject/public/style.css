@@ -1,0 +1,102 @@
+body{
+    background-color:#76b852;
+}
+.container{
+    width: 500px;
+    height: 400px;
+    padding-top: 100px;
+}
+.container-register{
+    width: 100%;
+    height: auto;
+    padding-top: 100px;
+    text-align: -webkit-center;;
+}
+.formlogin-row1-2{
+    display: flex;
+}
+.formlogin{
+    padding: 10px;
+    border: 1px solid black;
+    background-color: bisque;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 8px;
+}
+.formlogin a{
+    text-decoration: none;
+}
+.formlogin-row3-btn{
+    width: 100px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 8px;
+}
+.formregister-6rows{
+    display: flex;
+    align-items: center;
+}
+.formregister-6rows p{
+    width: 130px;
+}
+.formregister-row1 p{
+    width: 150px;
+}
+.formregister-row2 input{
+    margin-bottom: 8px;;
+}
+.formregister{
+    background-color: antiquewhite;
+    border: 1px solid black;
+    width: 500px;
+    height: auto;
+    border-radius: 8px;
+}
+.formregister a{
+    text-decoration: none;
+}
+.formregister-row4{
+    text-align: center;
+}
+.formregister-row4 button{
+    width: 130px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.profile-task a{
+    font-size: 20px;
+    text-decoration: none;
+}
+.information{
+    width: 500px;
+    height: auto;
+    background-color: antiquewhite;
+    padding: 25px;
+    border-radius: 8px;
+}
+.information-infor{
+    width: 150px;
+    height: auto;
+}
+.container-information{
+    width: 500px;
+    height: auto;
+    display: flex;
+    margin: 0 auto;
+    padding-top: 10%;
+    align-items: center;
+}
+.information-rows{
+    padding-bottom: 10px;
+}
+.information-button{
+    text-align: center;
+}
+.information-button button{
+    width: 100px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 8px;
+}
