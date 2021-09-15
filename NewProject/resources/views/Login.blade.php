@@ -26,8 +26,8 @@
                     <p>Password: </p>
                 </div>
                 <div class="formlogin-row2">
-                    <input name="account" type="text">
-                    <input name="password" type="password">
+                    <input name="account" placeholder="Account" type="text">
+                    <input name="password" placeholder="Password" type="password">
                 </div>
             </div>
             <div class="formlogin-row3">
