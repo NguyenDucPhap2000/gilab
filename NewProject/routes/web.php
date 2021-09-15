@@ -39,4 +39,7 @@ Route::get('check', function (Request $request) {
         return view('Login');
     }
 });
-// Route::('check',[HomeController::class,'checklogin']); 
+Route::get('forgotten', function () {
+    return view('ForgotPass');
+});
+Route::get('/user/verify/{token}',[RegisterController::class,'verifyEmail']);

@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     protected $table = 'users';
-    public $timestamp = false;
     use HasFactory;
     protected $fillable = [
         'name',
@@ -17,4 +16,8 @@ class User extends Model
         'password',
         'email'
     ];
+    
+    public function verify_users(){
+        return $this->hasOne('App\Models\VerifyUser');
+    }
 }

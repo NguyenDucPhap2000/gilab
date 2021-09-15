@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -89,25 +90,25 @@ class LoginController extends Controller
         $user = User::where('account','=',$request->account)->first();
         if($user){
             if(Hash::check($request->password, $user->password)){
-                $data = $request->input();
-                $request->session()->put('username',$data['account']);
-                $request->session()->put('id',$user['id']);
-                return view('Profile');
+                $checknull = DB::table('users')
+                ->where('email_verified_at',null)
+                ->where('account','=',$request->account)
+                ->exists();
+                if($checknull){
+                    Auth::logout();
+                    return \redirect(route('login.index'))->with('fail','You must verify first');
+                }else{
+                    $data = $request->input();
+                    $request->session()->put('username',$data['account']);
+                    $request->session()->put('id',$user['id']);
+                    return view('Profile');
+                }
             }else{
                 return back()->with('fail','Login failed');
             }
         }else{
             return back()->with('fail','Login failed');
         }
-
-
-        // $account = $request->account;
-        // $password = $request->password;
-        // if(Auth::attempt(['account' => $account, 'password' => $password])){
-        //     echo 'success';
-        // }else{
-        //     echo ' fail';
-        // }
     }
 
     /**

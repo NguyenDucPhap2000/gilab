@@ -10,6 +10,11 @@
                      {{ Session::get('fail') }}
                  </div>
             @endif
+            @if (Session::get('success'))
+                 <div class="alert alert-success">
+                     {{ Session::get('success') }}
+                 </div>
+            @endif
          </div>
         <div class="formlogin">
             <div class="formlogin-title">
@@ -33,7 +38,7 @@
                 <span><a href="/register">Register</a></span>
             </div>
             <div class="formlogin-row5">
-                <a href="">Forgot Password ?</a>
+                <a href="/forgotten">Forgot Password ?</a>
             </div>
         </div>
     </div>
