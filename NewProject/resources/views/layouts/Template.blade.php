@@ -12,7 +12,7 @@
         <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="{{ asset('styles2.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/styles2.css') }}" rel="stylesheet" />
         @yield('pre')
     </head>
     <body>
@@ -32,6 +32,9 @@
                         @if (Session('username'))
                             <li class="nav-item">
                                 <a class="nav-link px-lg-3 py-3 py-lg-4" href="/showinfor/{{ Session('id') }}">Show Information</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link px-lg-3 py-3 py-lg-4" href="/manage">Manage Blog</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link px-lg-3 py-3 py-lg-4" href="/logout">Log out</a>
@@ -110,7 +113,7 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <script src="{{ asset('scripts2.js') }}"></script>
+        <script src="{{ asset('script/scripts2.js') }}"></script>
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <!-- * *                               SB Forms JS                               * *-->
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->

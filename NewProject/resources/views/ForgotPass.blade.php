@@ -1,7 +1,7 @@
 @extends('layouts.FirstProject')
 @section('head')
 @section('content')
-<form action="" method="">
+<form action="/accountverify" method="Post">
 @csrf
     <div class="container">
         <div class="results">
@@ -10,24 +10,56 @@
                      {{ Session::get('fail') }}
                  </div>
             @endif
+            @if (Session::get('success'))
+                 <div class="alert alert-success">
+                     {{ Session::get('success') }}
+                 </div>
+            @endif
          </div>
         <div class="formlogin">
             <div class="formlogin-title">
                 <h3>Find Your Account</h3>
             </div>
             <div class="formforgotten infor">
-                Please enter your email address to search for your account.
+                Please enter your account to get password.
             </div>
             <div class="formlogin-row1-2" style="padding: 40px">
                 <div class="formlogin-row2">
-                    <input name="account" placeholder="Enter Your Email" type="text" style="width: 360px;
-                    height: 44px;
-                    border-radius: 6px;">
+                    @if (Session::get('email'))
+                    <div class="alert alert-success">
+                        Your Email :
+                        <input type="text" name="mail" 
+                        value="{{ Session::get('email') }}" disabled>
+                    </div>
+                    @else
+                        <input name="account" placeholder="Enter Your Account" type="text" style="width: 360px;
+                        height: 44px;
+                        border-radius: 6px;" value="{{ Session::get('account') }}">
+                        <div class="alert-danger">
+                            @error('account')
+                                {{ $message }}
+                            @enderror
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="formlogin-row3">
-                <button class="formlogin-row3-btn" type="submit" ><a href="/login">Cancel</a></button>
+                @if (Session::get('email'))
+                <button class="formlogin-row3-btn" type="button" >
+                    <a href="/login">Cancel</a>
+                </button>
+
+                <button class="formlogin-row3-btn" type="button" >
+                    <a href="/sendcode">Send code</a>
+                </button>
+
+                @else
+                <button class="formlogin-row3-btn" type="button" >
+                    <a href="/login">Cancel</a>
+                </button>
+
                 <button class="formlogin-row3-btn" type="submit" >Search</button>
+                @endif
             </div>
         </div>
     </div>

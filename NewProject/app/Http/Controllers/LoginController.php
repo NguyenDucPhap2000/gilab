@@ -18,42 +18,50 @@ class LoginController extends Controller
             session()->forget('id');
             return view('Login');
         }
+        return view('Login');
     }
     public function checklogin(){
         return 'check login';
     }
-    public function showdata($id){
-        $data = User::find($id);
-        return view('ShowInfor',['data'=>$data]);
+    public function showdata($id, Request $request){
+        $var = $request->session()->get('id');
+        if($var){
+            $data = User::find($id);
+            return view('ShowInfor',['data'=>$data]);
+        }else{
+            return view('Login');
+        }
+        return view('Login');
     }
     public function updatedata(Request $request){
-        $request->validate([
-            'name'=>'min:6|max:30|required',
-            'dateofbirth'=>'date',
-            'password'=>[
-            'required',
-            'min:6',
-            'max:30',
-            'regex:/^(?=.*[a-z|A-Z])(?=.*[A-Z])(?=.*\d).+$/'],
-            'RePassword'=>'same:password|required|alpha_num',
-            'email'=>'required|email:rfc,dns'
-        ]);
-        $data = User::find($request->id);
-        $data->name = $request->name;
-        $data->dateofbirth = $request->dob;
-        $data->password = Hash::make($request->password);
-        $data->email = $request->email;
-        $check = $data->save();
-        // $check = DB::table('users')->where('id',$request->id)->update(['name'=>$request->name,
-        // 'dateofbirth'=>$request->dob,
-        // 'password'=>Hash::make($request->password),
-        // 'email'=>$request->email]);
-        // $data = User::find($request->id);
-        if($check){
-            return back()->with(['success'=>'Update success','data'=>$data]);
-        }else{
-            return back()->with(['fail'=>'Update fail','data'=>$data]);
-        }
+            $request->validate([
+                'name'=>'min:6|max:30|required',
+                'dateofbirth'=>'date',
+                'password'=>[
+                'required',
+                'min:6',
+                'max:30',
+                'regex:/^(?=.*[a-z|A-Z])(?=.*[A-Z])(?=.*\d).+$/'],
+                'RePassword'=>'same:password|required|alpha_num',
+                'email'=>'required|email:rfc,dns'
+            ]);
+            $data = User::find($request->id);
+            $data->name = $request->name;
+            $data->dateofbirth = $request->dob;
+            $data->password = Hash::make($request->password);
+            $data->email = $request->email;
+            $check = $data->save();
+            // $check = DB::table('users')->where('id',$request->id)->update(['name'=>$request->name,
+            // 'dateofbirth'=>$request->dob,
+            // 'password'=>Hash::make($request->password),
+            // 'email'=>$request->email]);
+            // $data = User::find($request->id);
+            if($check){
+                return back()->with(['success'=>'Update success','data'=>$data]);
+            }else{
+                return back()->with(['fail'=>'Update fail','data'=>$data]);
+            }
+        
     }
     /**
      * Display a listing of the resource.

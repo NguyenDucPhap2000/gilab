@@ -20,4 +20,7 @@ class User extends Model
     public function verify_users(){
         return $this->hasOne('App\Models\VerifyUser');
     }
+    public function getPass(){
+        return $this->hasOne('App\Models\ForgottenPassword');
+    }
 }
