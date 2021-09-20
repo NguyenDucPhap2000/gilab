@@ -10,16 +10,18 @@ use Illuminate\Queue\SerializesModels;
 class GetPassByEmail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $newpass;
+    public $code;
+    public $url;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($newpass)
+    public function __construct($code,$url)
     {
-        $this->newpass = $newpass;
+        $this->code = $code;
+        $this->url = $url;
     }
 
     /**
@@ -29,6 +31,6 @@ class GetPassByEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('Mail.GetNewPass',['newpass',$this->newpass]);
+        return $this->view('Mail.GetNewPass',['code'=>$this->code],['url'=>$this->url]);
     }
 }

@@ -10,8 +10,9 @@ class ForgottenPassword extends Model
     protected $table = 'forgotten_passwords';
     use HasFactory;
     protected $fillable = [
-        'newpass',
-        'userID'
+        'code',
+        'userID',
+        'url'
     ];
     public function user(){
         return $this->belongsTo('App\Models\User');

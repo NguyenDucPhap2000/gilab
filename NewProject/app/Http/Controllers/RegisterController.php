@@ -57,9 +57,9 @@ class RegisterController extends Controller
             'password.required'=>'Must be 6-8 characters and at least one Uppercase Charater'
         ]);
         if(DB::table('users')->where('account',$request->account)->exists()){
-            return back()->with('fail','Account has been exist');
+            return back()->with('fail-register','Account has been exist');
         }else if(DB::table('users')->where('email',$request->email)->exists()){
-            return back()->with('fail','Email has been exist');
+            return back()->with('fail-register','Email has been exist');
         }
         $user = new User();
         $user->name = $request->name;
@@ -76,9 +76,9 @@ class RegisterController extends Controller
         ]);
         Mail::to($user->email)->send(new VerifyEmail($user));
         if($query){
-            return back()->with('success','Sign up success. You must verify to login');
+            return back()->with('success-register','Sign up success. You must verify to login');
         }else{
-            return back()->with('fail','Somethings went wrong');
+            return back()->with('fail-register','Somethings went wrong');
         }
     }
 
@@ -89,7 +89,7 @@ class RegisterController extends Controller
             if(!$user->email_verified_at){
                 $user->email_verified_at = Carbon::now();
                 $user->save();
-                return \redirect(route('login.index'))->with('success', 'Your email has been verified');
+                return \redirect(route('login.index'))->with('success-login', 'Your email has been verified');
             }else{
                 return \redirect()->back()-with('infor','Your email has already been verified');
             }

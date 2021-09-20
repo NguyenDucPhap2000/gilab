@@ -13,15 +13,16 @@ class LoginController extends Controller
 {
     public function logout(){
         if(session()->has('username')){
-            session()->pull('username');
             session()->forget('username');
             session()->forget('id');
+            session()->forget('change');
+            session()->forget('UserId');
+            session()->forget('changePassword');
+            session()->forget('fail-login');
+            session()->forget('validate');
             return view('Login');
         }
         return view('Login');
-    }
-    public function checklogin(){
-        return 'check login';
     }
     public function showdata($id, Request $request){
         $var = $request->session()->get('id');
@@ -34,34 +35,44 @@ class LoginController extends Controller
         return view('Login');
     }
     public function updatedata(Request $request){
+        $change = $request->session()->get('change');
+        $data = User::find($request->id);
+        $request->validate([
+            'name'=>'min:6|max:30|required',
+            'dateofbirth'=>'date',
+            'email'=>'required|email:rfc,dns'
+        ]);
+        if($change){
             $request->validate([
-                'name'=>'min:6|max:30|required',
-                'dateofbirth'=>'date',
                 'password'=>[
                 'required',
                 'min:6',
                 'max:30',
                 'regex:/^(?=.*[a-z|A-Z])(?=.*[A-Z])(?=.*\d).+$/'],
                 'RePassword'=>'same:password|required|alpha_num',
-                'email'=>'required|email:rfc,dns'
             ]);
-            $data = User::find($request->id);
+            $data->password = Hash::make($request->password);
+        }
             $data->name = $request->name;
             $data->dateofbirth = $request->dob;
-            $data->password = Hash::make($request->password);
             $data->email = $request->email;
             $check = $data->save();
+            $request->session()->put('username',$data['name']);
             // $check = DB::table('users')->where('id',$request->id)->update(['name'=>$request->name,
             // 'dateofbirth'=>$request->dob,
             // 'password'=>Hash::make($request->password),
             // 'email'=>$request->email]);
             // $data = User::find($request->id);
             if($check){
-                return back()->with(['success'=>'Update success','data'=>$data]);
+                session()->forget('change');
+                return back()->with(['success-login'=>'Update success','data'=>$data]);
             }else{
-                return back()->with(['fail'=>'Update fail','data'=>$data]);
+                return back()->with(['fail-login'=>'Update fail','data'=>$data]);
             }
-        
+    }
+    public function changePass(Request $request){
+        $request->session()->put('change','change');
+        return back();
     }
     /**
      * Display a listing of the resource.
@@ -70,6 +81,16 @@ class LoginController extends Controller
      */
     public function index(Request $request)
     {
+        session()->forget('UserId');
+        session()->forget('changePassword');
+        session()->forget('fail-login');
+        session()->forget('validate');
+        $value = $request->session()->get('id');
+        if($value){
+            return view('Profile');
+        }else{
+            return view('Login');
+        }
         return view('Login');
     }
 
@@ -91,10 +112,10 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //    'account'=>'required|min:8|max:30',
-        //    'password'=>'required|min:6|max:30' 
-        // ]);
+        $request->validate([
+           'account'=>'required|min:6|max:30',
+           'password'=>'required|min:6|max:30' 
+        ]);
         $user = User::where('account','=',$request->account)->first();
         if($user){
             if(Hash::check($request->password, $user->password)){
@@ -104,18 +125,17 @@ class LoginController extends Controller
                 ->exists();
                 if($checknull){
                     Auth::logout();
-                    return \redirect(route('login.index'))->with('fail','You must verify first');
+                    return \redirect(route('login.index'))->with('fail-login','You must verify first');
                 }else{
-                    $data = $request->input();
-                    $request->session()->put('username',$data['account']);
+                    $request->session()->put('username',$user['name']);
                     $request->session()->put('id',$user['id']);
                     return view('Profile');
                 }
             }else{
-                return back()->with('fail','Login failed');
+                return back()->with('fail-login','Login failed');
             }
         }else{
-            return back()->with('fail','Login failed');
+            return back()->with('fail-login','Login failed');
         }
     }
 

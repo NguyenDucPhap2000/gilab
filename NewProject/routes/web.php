@@ -7,6 +7,7 @@ use App\Http\Controllers\ForgetPassController;
 use App\Models\ForgottenPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ResetPassword;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,7 @@ Route::get('logout', [LoginController::class,'logout']);
 // Route::put('showinfor/{id}',[LoginController::class,'update']);
 Route::get('showinfor/{id}',[LoginController::class,'showdata']);
 Route::post('updateinfor',[LoginController::class,'updatedata']);
-Route::get('home',[Homecontroller::class,'index']);
+Route::get('change',[LoginController::class,'changePass']);
 Route::get('check', function (Request $request) {
     // if($request->Session::get('id')){
     //     return view('Profile');
@@ -45,7 +46,7 @@ Route::get('forgotten',[ForgetPassController::class,'index']);
 Route::post('accountverify',[ForgetPassController::class,'verifyAccount']);
 Route::get('/user/verify/{token}',[RegisterController::class,'verifyEmail']);
 Route::get('manage', function () {
-    return view('layouts.ManageBlog');
+    return view('ManageBlog');
 });
 Route::get('edit', function () {
     return view('UpdateArticle');
@@ -55,3 +56,5 @@ Route::get('article', function () {
 });
 Route::get('sendcode',[ForgetPassController::class,'sendToEmail']);
 // Route::get('/pass/verify/{token}',[ForgetPassController::class,'sendToEmail']);
+Route::get('/newpass/verify/{url}',[ForgetPassController::class,'verifyCode']);
+Route::post('/resetpassword',[ForgetPassController::class,'checkcodeReset']);

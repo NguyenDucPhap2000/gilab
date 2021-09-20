@@ -1,36 +1,60 @@
+html{
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
 body{
-    background-color:#76b852;
+    background-color:#eee;
+    height: 100%;
+    width: 100%;
+}
+.layouts-title{
+    font-family: monospace;
+    font-style: italic;
+    width: 50%;
+    height: auto;
+    display: flex;
+    justify-content: end;
 }
 .container{
     width: 500px;
-    height: 400px;
-    padding-top: 100px;
+    height: auto;
+    padding: 7% 0;
 }
 .container-register{
     width: 100%;
     height: auto;
     padding-top: 100px;
-    text-align: -webkit-center;;
+    text-align: -webkit-center;
 }
 .formlogin-row1-2{
     display: flex;
 }
 .formlogin{
-    padding: 10px;
+    padding: 20px;
     border: 1px solid black;
-    background-color: bisque;
+    background-color: white;
     margin: 0 auto;
     text-align: center;
     border-radius: 8px;
+    height: 500px;
+}
+.formlogin-title{
+    font-family: monospace;
 }
 .formlogin a{
     text-decoration: none;
+    color: black;
 }
 .formlogin-row3-btn{
     width: 100px;
     border: 1px solid black;
     background-color: white;
     border-radius: 8px;
+}
+.formlogin-row3-btn:hover{
+    background-color: cornflowerblue;
 }
 .formregister-6rows{
     display: flex;
@@ -70,33 +94,188 @@ body{
     text-decoration: none;
 }
 .information{
-    width: 500px;
+    max-height: 100%;
     height: auto;
-    background-color: antiquewhite;
-    padding: 25px;
-    border-radius: 8px;
+    background-color: white;
+    padding: 5%;
+    font-size: 18px;
+}
+.information-rows-title{
+    font-family: monospace;
+    text-align: center;
+}
+.information-rows-title span{
+    background-color: bisque;
+    border: 1px solid black;
+    border-radius: 6px;
 }
 .information-infor{
     width: 150px;
     height: auto;
 }
 .container-information{
-    width: 500px;
+    width: 900px;
     height: auto;
     display: flex;
+    border: 2px solid black;
+    border-radius: 3px;
+    margin: 3% 0;
+}
+.cover-container-information{
+    width: 900px;
     margin: 0 auto;
-    padding-top: 10%;
     align-items: center;
+    display: flex;
+}
+.container-information-left{
+    width: 50%;
+    height: auto;
+    background-image: url('bg.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.container-information-right{
+    width: 50%;
+    height: auto;
 }
 .information-rows{
     padding-bottom: 10px;
 }
+.information-rows input{
+    width: 100%;
+    border: 1px solid black;
+    height: 50px;
+    border-radius: 6px;
+
+}
 .information-button{
     text-align: center;
+}
+.information-button button:hover{
+    background-color: cornflowerblue;
 }
 .information-button button{
     width: 100px;
     border: 1px solid black;
     background-color: white;
     border-radius: 8px;
+}
+.container-profile{
+    height: auto;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.container-profile-main{
+    width: 40%;
+    height: auto;
+    margin: 0 auto;
+}
+.container-profile-user{
+    width: 100%;
+    height: auto;
+}
+.container-profile-blog{
+    width: 100%;
+    height: auto;
+}
+.container-profile-img{
+    width: 100%;
+    height: auto;
+    border: 2px solid black;
+    border-radius: 4px;
+    margin: 5% 0;
+}
+.container-profile-img img{
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: auto;
+}
+.container-profile-smImg{
+    width: 10%;
+    height: auto;
+}
+.container-profile-smImg img{
+    background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    border: 2px solid black;
+    border-radius: 50%;
+}
+.container-profile-img-name{
+    display: flex;
+    height: auto;
+    width: 100%;
+}
+.container-profile-yourname{
+    height: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 2%;
+    font-family: sans-serif;
+    font-size: 23px;
+    font-weight: bold;
+
+}
+.container-newpass{
+    width: 100%;
+    height: 80%;
+    align-items: center;
+    display: flex;
+}
+.container-newpass-form{
+    width: 25%;
+    height: 500px;
+    font-family: monospace;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: white;
+}
+.container-newpass-title{
+    width: 100%;
+    height: auto;
+    text-align: center;
+    padding: 3% 0;
+}
+.container-newpass-title label{
+    font-size: 23px;
+}
+.container-newpass-input{
+    width: 100%;
+    height: auto;
+    padding: 5% 10%;
+    text-align: -webkit-center;
+}
+.container-newpass-input input{
+    width: 100%;
+    margin-bottom: 5%;
+}
+.container-newpass-button{
+    width: 100%;
+    height: auto;
+    text-align: -webkit-center;
+}
+.container-newpass-button button{
+    border: 1px solid black;
+    border-radius: 5px;
+}
+.container-newpass-button button:hover{
+    background-color:cornflowerblue;
+}
+.container-newpass-sendButton{
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 30%;
+}
+.container-newpass-input button:hover{
+    background-color:cornflowerblue;
+}
+.formReset{
+    width: 100% ;
+    height: 80%;
 }

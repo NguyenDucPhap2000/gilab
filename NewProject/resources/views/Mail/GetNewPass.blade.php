@@ -7,11 +7,12 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>Warning: Anyone or you required new password . Dont provide this
+    <h2 style="color: red">Warning Anyone or you required new password . Dont provide this
         email for anyone
     </h2>
     <p>
-        Your new password: <b>{{ $newpass }}</b>
+        Your code: <b>{{ $code }}</b>
     </p>
+    <p>Click this <a href="{{ url('/newpass/verify/'.$url) }}">Link</a> to enter your code to change your password</p>
 </body>
 </html>

@@ -6,42 +6,97 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <title></title>
+    <link rel="stylesheet" href="{{ asset('css/stylelogin.css') }}">
+    <title>My Blog</title>
     @yield('head')
 </head>
-    @csrf
 <body>
+  @csrf
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       @section('nav')
-        <div class="container-fluid">
+        <div class="container-fluid" style="justify-content: end" >
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+          <div class="collapse navbar-collapse" id="navbarNav" style="justify-content: end" >
+              <div class="layouts-title">
+                <h1> <span>Blog</span></h1>
+              </div>
+            <ul class="nav justify-content-end" style="width: 50%">
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/check">Home</a>
+                <a class="nav-link active" aria-current="page" href="/check">Home</a>
               </li>
               @if (Session('username'))
               <li class="nav-item">
-                <a class="nav-link" href="/home">Blog</a>
-                </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/showinfor/{{ Session('id') }}">Show Information</a>
+                <a class="nav-link active" href="/showinfor/{{ Session('id') }}">Personal Page</a>
               </li>
               <li class="nav-item">
-              <a class="nav-link" href="/manage">Manage Your Blog</a>
+                <a class="nav-link active" aria-current="page" href="#">Chat</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/logout">Log out</a>
+              <a class="nav-link active" href="/manage">Manage Your Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/logout">Log out</a>
               </li>
               @endif
               @if (!Session('username'))
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@fat">Sign in</a>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Sign in</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form action="{{ route('login.store') }}" method="POST">
+                              @csrf
+                              <div class="results">
+                                @if (Session::get('fail-login'))
+                                     <div class="alert alert-danger">
+                                         {{ Session::get('fail-login') }}
+                                     </div>
+                                @endif
+                                @if (Session::get('success-login'))
+                                     <div class="alert alert-success">
+                                         {{ Session::get('success-login') }}
+                                     </div>
+                                @endif
+                             </div>
+                              <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                                    <path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
+                                    <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                  </svg>
+                                </span>
+                                <input name="account" type="text" placeholder="Your Account" class="form-control" id="recipient-name">
+                              </div>
+                              <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                                    <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zM5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+                                  </svg>
+                                </span>
+                                <input name="password" type="password" placeholder="Password" class="form-control" id="recipient-name">
+                              </div>
+                              <div class="input-group mb-3">
+                                <a href="/forgotten">Forgotten Password ?</a>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" {{ Session::get('fail-login') }} ? onclick="loginfail(1)" : ""  class="btn btn-primary">Sign in</button>
+                          </div>
+                        </form>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
               <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/register">Register</a>
+                <a class="nav-link active" href="/register">Sign up</a>
               </li>
               @endif
             </ul>
