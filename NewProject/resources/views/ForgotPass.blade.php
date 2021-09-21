@@ -3,7 +3,7 @@
 @section('content')
 <form action="/accountverify" method="Post">
 @csrf
-    <div class="container">
+    <div class="container-forgotPass">
         <div class="results">
             @if (Session::get('fail-forget'))
                  <div class="alert alert-danger">

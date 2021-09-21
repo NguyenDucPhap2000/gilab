@@ -8,6 +8,8 @@ use App\Models\ForgottenPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ResetPassword;
+use App\Events\MessageSent;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,3 +60,12 @@ Route::get('sendcode',[ForgetPassController::class,'sendToEmail']);
 // Route::get('/pass/verify/{token}',[ForgetPassController::class,'sendToEmail']);
 Route::get('/newpass/verify/{url}',[ForgetPassController::class,'verifyCode']);
 Route::post('/resetpassword',[ForgetPassController::class,'checkcodeReset']);
+Route::get('messenger', function () {
+    return view('Chat');
+});
+Route::post('message', function (Request $request) {
+    $value = $request->session()->get('id');
+    $user = User::where('id',$value)->first();
+    broadcast(new MessageSent($user['name'],$request->input('message')));
+    return $request->input('message');
+});

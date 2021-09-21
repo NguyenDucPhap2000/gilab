@@ -11,7 +11,6 @@
     },
     "devDependencies": {
         "axios": "^0.21",
-        "bootstrap": "^4.6.0",
         "jquery": "^3.6",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
@@ -20,5 +19,11 @@
         "resolve-url-loader": "^4.0.0",
         "sass": "^1.32.11",
         "sass-loader": "^11.0.1"
+    },
+    "dependencies": {
+        "ioredis": "^4.27.9",
+        "laravel-echo-server": "^1.6.2",
+        "socket.io": "^4.2.0",
+        "vue": "^2.6.14"
     }
 }

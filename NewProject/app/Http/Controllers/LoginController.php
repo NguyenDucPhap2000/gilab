@@ -18,7 +18,7 @@ class LoginController extends Controller
             session()->forget('change');
             session()->forget('UserId');
             session()->forget('changePassword');
-            session()->forget('fail-login');
+            // session()->forget('fail-login');
             session()->forget('validate');
             return view('Login');
         }
@@ -83,7 +83,7 @@ class LoginController extends Controller
     {
         session()->forget('UserId');
         session()->forget('changePassword');
-        session()->forget('fail-login');
+        // session()->forget('fail-login');
         session()->forget('validate');
         $value = $request->session()->get('id');
         if($value){
