@@ -9,7 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ResetPassword;
 use App\Events\MessageSent;
+use App\Http\Controllers\ArticleController;
+use App\Models\article;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,50 +25,45 @@ use App\Models\User;
 |
 */
 
-Route::get('/', function () {
-    return view('Login');
-});
-Route::resource('login', LoginController::class);
-Route::resource('register',RegisterController::class);
-Route::get('logout', [LoginController::class,'logout']);
-// Route::put('showinfor/{id}',[LoginController::class,'update']);
-Route::get('showinfor/{id}',[LoginController::class,'showdata']);
-Route::post('updateinfor',[LoginController::class,'updatedata']);
-Route::get('change',[LoginController::class,'changePass']);
-Route::get('check', function (Request $request) {
-    // if($request->Session::get('id')){
-    //     return view('Profile');
-    // }
-    // return view('Login');
+Route::get('/', function (Request $request) {
     $value = $request->session()->get('id');
-    if($value){
-        return view('Profile');
-    }else{
+    if ($value) {
+        $data = article::get();
+        return view('Home', ['data' => $data]);
+    } else {
         return view('Login');
     }
+    return view('Home');
 });
-Route::get('forgotten',[ForgetPassController::class,'index']);
-Route::post('accountverify',[ForgetPassController::class,'verifyAccount']);
-Route::get('/user/verify/{token}',[RegisterController::class,'verifyEmail']);
-Route::get('manage', function () {
-    return view('ManageBlog');
-});
-Route::get('edit', function () {
-    return view('UpdateArticle');
-});
-Route::get('article', function () {
-    return view('Article');
-});
-Route::get('sendcode',[ForgetPassController::class,'sendToEmail']);
+Route::resource('login', LoginController::class);
+Route::resource('register', RegisterController::class);
+Route::get('logout', [LoginController::class, 'logout']);
+// Route::put('showinfor/{id}',[LoginController::class,'update']);
+Route::get('showinfor/{id}', [LoginController::class, 'showdata']);
+Route::post('updateinfor', [LoginController::class, 'updatedata']);
+Route::get('change', [LoginController::class, 'changePass']);
+
+Route::get('forgotten', [ForgetPassController::class, 'index']);
+Route::post('accountverify', [ForgetPassController::class, 'verifyAccount']);
+Route::get('/user/verify/{token}', [RegisterController::class, 'verifyEmail']);
+Route::get('sendcode', [ForgetPassController::class, 'sendToEmail']);
 // Route::get('/pass/verify/{token}',[ForgetPassController::class,'sendToEmail']);
-Route::get('/newpass/verify/{url}',[ForgetPassController::class,'verifyCode']);
-Route::post('/resetpassword',[ForgetPassController::class,'checkcodeReset']);
+Route::get('/newpass/verify/{url}', [ForgetPassController::class, 'verifyCode']);
+Route::post('/resetpassword', [ForgetPassController::class, 'checkcodeReset']);
+
+
+Route::get('manage', [ArticleController::class, 'show']);
+Route::resource('create/article', ArticleController::class);
+Route::resource('/home', ArticleController::class);
+Route::get('article/{id}/changestatus/{status}', [ArticleController::class, 'changeStatus']);
+
+
 Route::get('messenger', function () {
     return view('Chat');
 });
 Route::post('message', function (Request $request) {
     $value = $request->session()->get('id');
-    $user = User::where('id',$value)->first();
-    broadcast(new MessageSent($user['name'],$request->input('message')));
+    $user = User::where('id', $value)->first();
+    broadcast(new MessageSent(Auth('user'), $request->input('message')));
     return $request->input('message');
 });

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\article;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -26,5 +27,13 @@ class DatabaseSeeder extends Seeder
         //     'email' => Str::random(10).'@gmail.com',
         //     'email_verified_at' => Date('2000/12/12'),
         // ]);
+        for($i=0; $i < 200; $i++){
+            $article = new article();
+            $article->UserName = "Nguyen " .$i;
+            $article->title = "Title " .$i;
+            $article->userID = $i;
+            $article->content = "Content " .$i;
+            $article->save(); 
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\article;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -11,8 +12,9 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function logout(){
-        if(session()->has('username')){
+    public function logout()
+    {
+        if (session()->has('username')) {
             session()->forget('username');
             session()->forget('id');
             session()->forget('change');
@@ -24,54 +26,58 @@ class LoginController extends Controller
         }
         return view('Login');
     }
-    public function showdata($id, Request $request){
+    public function showdata($id, Request $request)
+    {
         $var = $request->session()->get('id');
-        if($var){
+        if ($var) {
             $data = User::find($id);
-            return view('ShowInfor',['data'=>$data]);
-        }else{
+            return view('ShowInfor', ['data' => $data]);
+        } else {
             return view('Login');
         }
         return view('Login');
     }
-    public function updatedata(Request $request){
+    public function updatedata(Request $request)
+    {
         $change = $request->session()->get('change');
         $data = User::find($request->id);
         $request->validate([
-            'name'=>'min:6|max:30|required',
-            'dateofbirth'=>'date',
-            'email'=>'required|email:rfc,dns'
+            'name' => 'min:6|max:30|required',
+            'dateofbirth' => 'date',
+            'email' => 'required|email:rfc,dns'
         ]);
-        if($change){
+        if ($change) {
             $request->validate([
-                'password'=>[
-                'required',
-                'min:6',
-                'max:30',
-                'regex:/^(?=.*[a-z|A-Z])(?=.*[A-Z])(?=.*\d).+$/'],
-                'RePassword'=>'same:password|required|alpha_num',
+                'password' => [
+                    'required',
+                    'min:6',
+                    'max:30',
+                    'regex:/^(?=.*[a-z|A-Z])(?=.*[A-Z])(?=.*\d).+$/'
+                ],
+                'RePassword' => 'same:password|required|alpha_num',
             ]);
             $data->password = Hash::make($request->password);
         }
-            $data->name = $request->name;
-            $data->dateofbirth = $request->dob;
-            $data->email = $request->email;
-            $check = $data->save();
-            $request->session()->put('username',$data['name']);
-            // $check = DB::table('users')->where('id',$request->id)->update(['name'=>$request->name,
-            // 'dateofbirth'=>$request->dob,
-            // 'password'=>Hash::make($request->password),
-            // 'email'=>$request->email]);
-            // $data = User::find($request->id);
-            if($check){
-                session()->forget('change');
-                return back()->with(['success-login'=>'Update success','data'=>$data]);
-            }else{
-                return back()->with(['fail-login'=>'Update fail','data'=>$data]);
-            }
+        $data->name = $request->name;
+        $data->dateofbirth = $request->dob;
+        $data->email = $request->email;
+        $check = $data->save();
+        $request->session()->put('username', $data['name']);
+        // $check = DB::table('users')->where('id',$request->id)->update(['name'=>$request->name,
+        // 'dateofbirth'=>$request->dob,
+        // 'password'=>Hash::make($request->password),
+        // 'email'=>$request->email]);
+        // $data = User::find($request->id);
+        if ($check) {
+            session()->forget('change');
+            return back()->with(['success-login' => 'Update success', 'data' => $data]);
+        } else {
+            return back()->with(['fail-login' => 'Update fail', 'data' => $data]);
+        }
     }
-    public function changePass(Request $request){
-        $request->session()->put('change','change');
+    public function changePass(Request $request)
+    {
+        $request->session()->put('change', 'change');
         return back();
     }
     /**
@@ -86,12 +92,13 @@ class LoginController extends Controller
         // session()->forget('fail-login');
         session()->forget('validate');
         $value = $request->session()->get('id');
-        if($value){
-            return view('Profile');
-        }else{
+        if ($value) {
+            $data = article::get();
+            return view('Home', ['data' => $data]);
+        } else {
             return view('Login');
         }
-        return view('Login');
+        return view('Home');
     }
 
     /**
@@ -113,29 +120,29 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'account'=>'required|min:6|max:30',
-           'password'=>'required|min:6|max:30' 
+            'account' => 'required|min:6|max:30',
+            'password' => 'required|min:6|max:30'
         ]);
-        $user = User::where('account','=',$request->account)->first();
-        if($user){
-            if(Hash::check($request->password, $user->password)){
+        $user = User::where('account', '=', $request->account)->first();
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
                 $checknull = DB::table('users')
-                ->where('email_verified_at',null)
-                ->where('account','=',$request->account)
-                ->exists();
-                if($checknull){
+                    ->where('email_verified_at', null)
+                    ->where('account', '=', $request->account)
+                    ->exists();
+                if ($checknull) {
                     Auth::logout();
-                    return \redirect(route('login.index'))->with('fail-login','You must verify first');
-                }else{
-                    $request->session()->put('username',$user['name']);
-                    $request->session()->put('id',$user['id']);
-                    return view('Profile');
+                    return \redirect(route('login.index'))->with('fail-login', 'You must verify first');
+                } else {
+                    $request->session()->put('username', $user['name']);
+                    $request->session()->put('id', $user['id']);
+                    return \redirect(route('article.index'));
                 }
-            }else{
-                return back()->with('fail-login','Login failed');
+            } else {
+                return back()->with('fail-login', 'Login failed');
             }
-        }else{
-            return back()->with('fail-login','Login failed');
+        } else {
+            return back()->with('fail-login', 'Login failed');
         }
     }
 
@@ -147,7 +154,6 @@ class LoginController extends Controller
      */
     public function show(Request $request)
     {
-        
     }
 
     /**
@@ -170,7 +176,6 @@ class LoginController extends Controller
      */
     public function update(Request $request, $id)
     {
-
     }
 
     /**
