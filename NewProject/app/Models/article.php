@@ -17,7 +17,8 @@ class article extends Model
         'image',
         'displayed'
     ];
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\Models\User');
     }
 }

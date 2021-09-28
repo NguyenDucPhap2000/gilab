@@ -7,6 +7,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class ArticleController extends Controller
 {
@@ -44,31 +45,32 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|max:200',
-            'content' => 'required|max:10000'
-        ]);
-        try {
-            $article = new article();
-            if ($request->image != null) {
-                $imgURL = $request->file('image')->getClientOriginalName();
-                $request->file('image')->storeAs('public/img/', $imgURL);
-                $article->image = $imgURL;
-            }
-            $article->UserName = $request->session()->get('username');
-            $article->title = $request->title;
-            $article->userID = $request->session()->get('id');
-            $article->content = $request->content;
+        // $request->validate([
+        //     'title' => 'required|max:200',
+        //     'content' => 'required|max:10000'
+        // ]);
+        // try {
+        //     $article = new article();
+        //     if ($request->image != null) {
+        //         $imgURL = $request->file('image')->getClientOriginalName();
+        //         $request->file('image')->storeAs('public/img/', $imgURL);
+        //         $article->image = $imgURL;
+        //     }
+        //     $article->UserName = $request->session()->get('username');
+        //     $article->title = $request->title;
+        //     $article->userID = $request->session()->get('id');
+        //     $article->content = $request->content;
 
-            $check = $article->save();
-            if ($check) {
-                return back()->with('article-success', 'Add new successful');
-            } else {
-                return back()->with('article-fail', 'Add new failed');
-            }
-        } catch (Exception $e) {
-            return back()->with('article-fail', $e);
-        }
+        //     $check = $article->save();
+        //     if ($check) {
+        //         return redirect()->back()->with('home-success', 'Add new successful');
+        //     } else {
+        //         return back()->with('home-fail', 'Add new failed');
+        //     }
+        // } catch (Exception $e) {
+        //     return back()->with('article-fail', $e);
+        // }
+        return "gotten";
     }
 
     /**
@@ -133,8 +135,12 @@ class ArticleController extends Controller
             $data->image = $imageURL;
         }
         $data->displayed = $request->selectStatus;
-        $data->update();
-        return redirect()->back()->with('article-success', 'Update successfuly');
+        $check = $data->update();
+        if ($check) {
+            return redirect()->back()->with('article-success', "Update successfully !");
+        } else {
+            return redirect()->back()->with('article-fail', "Update failed !");
+        }
     }
 
     /**

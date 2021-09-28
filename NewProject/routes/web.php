@@ -61,9 +61,12 @@ Route::get('article/{id}/changestatus/{status}', [ArticleController::class, 'cha
 Route::get('messenger', function () {
     return view('Chat');
 });
-Route::post('message', function (Request $request) {
-    $value = $request->session()->get('id');
-    $user = User::where('id', $value)->first();
-    broadcast(new MessageSent(Auth('user'), $request->input('message')));
-    return $request->input('message');
+
+Route::post('sent', function (Request $request) {
+    $name = $request->session()->get('username');
+    if ($name) {
+        event(new App\Events\MessageSent($request, $name));
+    } else {
+        event(new App\Events\MessageSent($request, "Incognito"));
+    }
 });

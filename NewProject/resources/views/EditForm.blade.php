@@ -21,7 +21,7 @@
                 <textarea name="eidtContent" type="text">{{ $value->content }}</textarea>
             </div>
             <select name="selectStatus" class="form-select" aria-label="Default select example">
-              <option selected>Choose Post Status</option>
+              <option value="{{ $value->displayed }}" selected>Choose Post Status</option>
               <option value="1">Public</option>
               <option value="2">Private</option>
             </select>

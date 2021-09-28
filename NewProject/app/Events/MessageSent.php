@@ -8,23 +8,24 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Http\Request;
 use Illuminate\Queue\SerializesModels;
 
 class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
     public $message;
+    public $username;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($user,$message)
+    public function __construct(Request $request, $name)
     {
-        $this->user = $user;
-        $this->message = $message;
+        $this->message = $request->messageSent;
+        $this->username = $name;
     }
 
     /**
@@ -34,12 +35,11 @@ class MessageSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('chat');
+        return ['my-chat'];
     }
-    public function broadcastWith(){
-        return [
-            'user' => $this->user,
-            'message' => $this->message
-        ];
+
+    public function broadcastAs()
+    {
+        return 'my-event';
     }
 }
